@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@RequiredArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Transacao {
@@ -38,7 +37,6 @@ public class Transacao {
     private CategoriaTransacao categoriaTransacao;
 
     //natureza
-    @ManyToOne
     @JoinColumn(name = "naturezaTransacaoId", nullable = false)
     private NaturezaTransacao naturezaTransacao;
 

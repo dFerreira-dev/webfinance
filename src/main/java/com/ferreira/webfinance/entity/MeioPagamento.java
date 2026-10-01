@@ -12,7 +12,6 @@ public class MeioPagamento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long MeioPagamentoId;
 
     @Column(nullable = false)
     private String nomeMeioPagamento;
