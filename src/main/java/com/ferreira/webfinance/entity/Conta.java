@@ -14,9 +14,10 @@ public class Conta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "conta_id")
     private Long contaId;
 
-    @Column(nullable = false)
+    @Column(name = "nome_conta", nullable = false)
     private String nomeConta;
 
 }

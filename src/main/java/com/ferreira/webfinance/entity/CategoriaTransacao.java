@@ -14,9 +14,10 @@ public class CategoriaTransacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "categoria_transacao_id")
     private Long categoriaTransacaoId;
 
-    @Column(nullable = false)
+    @Column(name = "nome_categoria", nullable = false)
     private String nomeCategoria;
     //salario, vale, pensao, etc
 

@@ -15,10 +15,11 @@ public class TipoTransacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tipo_transacao_id")
     private Long tipoTransacaoId;
 
 
-    @Column(nullable = false)
+    @Column(name = "nome_tipo_transacao", nullable = false)
     private String nomeTipoTransacao;
     //entrada, saida, transferencia
 

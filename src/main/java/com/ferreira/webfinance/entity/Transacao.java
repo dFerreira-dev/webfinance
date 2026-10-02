@@ -16,42 +16,44 @@ public class Transacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idTransacao;
+    @Column(name = "transacao_id")
+    private Long transacaoId;
 
     //data em que foi gerada a transação
-    @Column(nullable = false)
+    @Column(name = "data_transacao", nullable = false)
     private LocalDate dataTransacao;
 
     //data efetiva em que o valor sai ou entra
+    @Column(name = "data_efetiva_pagamento")
     private LocalDate dataEfetivaPagamento;
 
     //descrição
-    @Column(nullable = false)
+    @Column(name = "descicao", nullable = false)
     private String descricao;
 
     //tipo
     @ManyToOne(optional = false)
-    @JoinColumn(name = "tipoTransacaoId", nullable = false)
+    @JoinColumn(name = "tipo_transacao_id", nullable = false)
     private TipoTransacao tipoTransacao;
 
     //categoria
     @ManyToOne
-    @JoinColumn(name = "categoriaTransacaoId")
+    @JoinColumn(name = "categoria_transacao_id")
     private CategoriaTransacao categoriaTransacao;
 
     //natureza
     @ManyToOne(optional = false)
-    @JoinColumn(name = "naturezaTransacaoId", nullable = false)
+    @JoinColumn(name = "natureza_transacao_id", nullable = false)
     private NaturezaTransacao naturezaTransacao;
 
     //meio pagamento
     @ManyToOne
-    @JoinColumn(name = "meioPagamentoId")
+    @JoinColumn(name = "meio_pagamento_id")
     private MeioPagamento meioPagamento;
 
     //conta
     @ManyToOne(optional = false)
-    @JoinColumn(name = "contaId", nullable = false)
+    @JoinColumn(name = "conta_id", nullable = false)
     private Conta conta;
 
     //valor
