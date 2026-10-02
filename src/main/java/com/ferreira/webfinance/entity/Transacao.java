@@ -1,14 +1,17 @@
 package com.ferreira.webfinance.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @NoArgsConstructor
 @Entity
+@Getter
+@Setter
 public class Transacao {
 
     @Id
@@ -37,6 +40,7 @@ public class Transacao {
     private CategoriaTransacao categoriaTransacao;
 
     //natureza
+    @ManyToOne(optional = false)
     @JoinColumn(name = "naturezaTransacaoId", nullable = false)
     private NaturezaTransacao naturezaTransacao;
 
