@@ -1,17 +1,16 @@
 package com.ferreira.webfinance.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Getter
-@Setter
+@Data
 public class Transacao {
 
     @Id
