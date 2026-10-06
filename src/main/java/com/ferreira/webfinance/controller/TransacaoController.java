@@ -19,7 +19,7 @@ public class TransacaoController {
     @GetMapping
     public ResponseEntity<List<Transacao>> listAll() {
 
-        return ResponseEntity.ok(transacaoService.listAll());
+        return ResponseEntity.ok(transacaoService.findAll());
 
     }
 

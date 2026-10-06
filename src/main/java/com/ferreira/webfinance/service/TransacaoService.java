@@ -65,7 +65,7 @@ public class TransacaoService {
     // CONTROLLER ACCESS METHODS-----
     //-------------------------------
 
-    public List<Transacao> listAll(){
+    public List<Transacao> findAll(){
         /*
         * Returns a list of all transacoes (transactions)
         */
