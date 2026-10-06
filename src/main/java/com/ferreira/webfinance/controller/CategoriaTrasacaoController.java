@@ -1,8 +1,11 @@
 package com.ferreira.webfinance.controller;
 
+import com.ferreira.webfinance.dto.request.CategoriaTransacaoRequestBody;
 import com.ferreira.webfinance.entity.CategoriaTransacao;
 import com.ferreira.webfinance.service.CategoriaTransacaoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,12 +28,20 @@ public class CategoriaTrasacaoController {
     }
 
     @PostMapping
-    public void save(@RequestBody CategoriaTransacao categoriaTransacao) {
-        categoriaTransacaoService.save(categoriaTransacao);
+    public ResponseEntity<CategoriaTransacao> save(@RequestBody CategoriaTransacaoRequestBody categoriaTransacaoRequestBody) {
+        return ResponseEntity.ok(categoriaTransacaoService.save(categoriaTransacaoRequestBody));
     }
 
-    @DeleteMapping
-    public void delete(@PathVariable("id") long id) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> update(@PathVariable("id") long id,
+                                       @RequestBody CategoriaTransacaoRequestBody categoriaTransacaoRequestBody) {
+        categoriaTransacaoService.update(id, categoriaTransacaoRequestBody);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") long id) {
         categoriaTransacaoService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
