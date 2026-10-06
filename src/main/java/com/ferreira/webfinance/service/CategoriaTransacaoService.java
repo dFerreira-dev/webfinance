@@ -27,7 +27,7 @@ public class CategoriaTransacaoService {
 
     public CategoriaTransacao findByIdOrThrowBadRequestException(long id) {
         /*
-         * Returns a Categoria Transacao if the id is found
+         * Returns a transaction category (categoria transacao) if the id is found
          * If isn't found, then throws a BadRequestExeption
          * */
         return categoriaTransacaoRepository.findById(id).
@@ -36,8 +36,8 @@ public class CategoriaTransacaoService {
 
     public CategoriaTransacao save(CategoriaTransacaoRequestBody categoriaTransacaoRequestBody) {
         /*
-         * save Transacao
-         * - This methods expect a CategoriaTransacaoRequestBody
+         * save transaction category (categoria transacao)
+         * - This method expect a CategoriaTransacaoRequestBody
          * - Then it calls the Mapper to convert the DTO to Entity
          * - repository saves new CategoriaTransacao
          * */
@@ -49,11 +49,12 @@ public class CategoriaTransacaoService {
 
     public void update(long id, CategoriaTransacaoRequestBody categoriaTransacaoRequestBody) {
 
-        /*update Transacao
-         * - This method firstly try to find an original CategoriaTransacao by id and returns it;
-         * - If it's found, then a temporary CategoriaTransacao is created using request data (updated data)
-         * - Then, the data of updatedData is copied to the original categoriaTransacao
-         * - Finally, the repository saves the categoriaTransacao updated
+        /*
+         *update transaction category (categoria transacao)
+         * - This method firstly try to find an original category by id and returns it;
+         * - If it's found, then a temporary category is created using request data (updated data)
+         * - Then, the data of updatedData is copied to the original category
+         * - Finally, the repository saves the category updated
          * */
 
         CategoriaTransacao categoriaTransacao = findByIdOrThrowBadRequestException(id);
@@ -66,8 +67,8 @@ public class CategoriaTransacaoService {
 
     public void delete(long id) {
         /*
-         * Delete existing Categoria Transacao using id
-         * If id not exists, it returns a BadRequestExcepetion
+         * Delete existing transaction category (categoria transacao) using id
+         * If id not exists, it throws a BadRequestExcepetion
          * */
         categoriaTransacaoRepository.delete(findByIdOrThrowBadRequestException(id));
     }

@@ -18,13 +18,13 @@ public class CategoriaTrasacaoController {
     private final CategoriaTransacaoService categoriaTransacaoService;
 
     @GetMapping
-    public List<CategoriaTransacao> findAll() {
-        return categoriaTransacaoService.findAll();
+    public ResponseEntity<List<CategoriaTransacao>> findAll() {
+        return ResponseEntity.ok(categoriaTransacaoService.findAll());
     }
 
     @GetMapping("/{id}")
-    public CategoriaTransacao findById(@PathVariable("id") long id) {
-        return categoriaTransacaoService.findByIdOrThrowBadRequestException(id);
+    public ResponseEntity<CategoriaTransacao> findById(@PathVariable("id") long id) {
+        return ResponseEntity.ok(categoriaTransacaoService.findByIdOrThrowBadRequestException(id));
     }
 
     @PostMapping
