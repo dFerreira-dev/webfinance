@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ContaRequestBody {
-    @NotEmpty(message = "The account name (nomeConta) cannot be empty or null")
-    private String nomeConta;
+public class AccountRequestBody {
+    @NotEmpty(message = "The account name cannot be empty or null")
+    private String accountName;
 }

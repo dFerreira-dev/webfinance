@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class NaturezaTransacaoRequestBody {
-    @NotEmpty(message = "The nature transation name (nomeNaturezaTransacao) cannot be empty or null")
-    private String nomeNaturezaTransacao;
+public class TransactionTypeRequestBody {
+    @NotEmpty(message = "The transaction type name cannot be empty or null")
+    private String transactionTypeName;
 }
