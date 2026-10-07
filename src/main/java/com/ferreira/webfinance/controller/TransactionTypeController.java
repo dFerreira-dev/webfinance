@@ -1,11 +1,8 @@
 package com.ferreira.webfinance.controller;
 
-import com.ferreira.webfinance.dto.request.NaturezaTransacaoRequestBody;
-import com.ferreira.webfinance.dto.request.TipoTransacaoRequestBody;
-import com.ferreira.webfinance.entity.NaturezaTransacao;
-import com.ferreira.webfinance.entity.TipoTransacao;
-import com.ferreira.webfinance.service.NaturezaTransacaoService;
-import com.ferreira.webfinance.service.TipoTransacaoService;
+import com.ferreira.webfinance.dto.request.TransactionTypeRequestBody;
+import com.ferreira.webfinance.entity.TransactionType;
+import com.ferreira.webfinance.service.TransactionTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,36 +11,36 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tipos-transacao")
+@RequestMapping("/transaction-types")
 @RequiredArgsConstructor
-public class TipoTransacaoController {
-    private final TipoTransacaoService tipoTransacaoService;
+public class TransactionTypeController {
+    private final TransactionTypeService transactionTypeService;
 
     @GetMapping
-    public ResponseEntity<List<TipoTransacao>> findAll() {
-        return ResponseEntity.ok(tipoTransacaoService.findAll());
+    public ResponseEntity<List<TransactionType>> findAll() {
+        return ResponseEntity.ok(transactionTypeService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TipoTransacao> findById(@PathVariable("id") long id) {
-        return ResponseEntity.ok(tipoTransacaoService.findByIdOrThrowBadRequestException(id));
+    public ResponseEntity<TransactionType> findById(@PathVariable("id") long id) {
+        return ResponseEntity.ok(transactionTypeService.findByIdOrThrowBadRequestException(id));
     }
 
     @PostMapping
-    public ResponseEntity<TipoTransacao> save(@RequestBody TipoTransacaoRequestBody tipoTransacaoRequestBody) {
-        return ResponseEntity.ok(tipoTransacaoService.save(tipoTransacaoRequestBody));
+    public ResponseEntity<TransactionType> save(@RequestBody TransactionTypeRequestBody transactionTypeRequestBody) {
+        return ResponseEntity.ok(transactionTypeService.save(transactionTypeRequestBody));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable long id,
-                                       @RequestBody TipoTransacaoRequestBody tipoTransacaoRequestBody) {
-        tipoTransacaoService.update(id, tipoTransacaoRequestBody);
+                                       @RequestBody TransactionTypeRequestBody transactionTypeRequestBody) {
+        transactionTypeService.update(id, transactionTypeRequestBody);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") long id) {
-        tipoTransacaoService.delete(id);
+        transactionTypeService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
