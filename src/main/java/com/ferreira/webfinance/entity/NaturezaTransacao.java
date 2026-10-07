@@ -15,11 +15,11 @@ public class NaturezaTransacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "natureza_transacao_id")
-    private Long naturezaTransacaoId;
+    @Column(name = "transaction_nature_id")
+    private Long transactionNatureId;
 
-    @Column(name = "nome_natureza_transacao", nullable = false)
-    private String nomeNaturezaTransacao;
-    //fixo, variavel, investimento
+    @Column(name = "transaction_nature_name", nullable = false)
+    private String transactionNatureName;
+    //fixed, variable, investment
 
 }

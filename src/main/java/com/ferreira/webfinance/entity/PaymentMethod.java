@@ -1,7 +1,6 @@
 package com.ferreira.webfinance.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,14 +9,15 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Conta {
+public class PaymentMethod {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "conta_id")
-    private Long contaId;
+    @Column(name = "payment_method_id")
+    Long paymentMethodID;
 
-    @Column(name = "nome_conta", nullable = false)
-    private String nomeConta;
+    @Column(name = "payment_method_name", nullable = false)
+    private String paymentMethodName;
+    //debit, credit, bank slip, pix
 
 }

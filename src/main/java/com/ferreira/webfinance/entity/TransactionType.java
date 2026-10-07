@@ -9,15 +9,16 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class MeioPagamento {
+public class TransactionType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "meio_pagamento_id")
-    Long meioPagamentoId;
+    @Column(name = "transaction_type_id")
+    private Long transactionTypeId;
 
-    @Column(name = "nome_meio_pagamento", nullable = false)
-    private String nomeMeioPagamento;
-    //debito, credito, boleto, pix
+
+    @Column(name = "transaction_type_name", nullable = false)
+    private String transactionTypeName;
+    //inflow, outflow, tranfer
 
 }
