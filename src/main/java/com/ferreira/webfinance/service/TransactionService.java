@@ -11,8 +11,9 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class TransacaoService {
+public class TransactionService {
 
+    // service dependencies (repositories)
     private final TransactionCategoryRepository transactionCategoryRepository;
     private final AccountRepository accountRepository;
     private final PaymentMethodRepository paymentMethodRepository;
@@ -23,41 +24,41 @@ public class TransacaoService {
     //-------------------------------
     // PRIVATE/INTERNAL METHODS------
     //-------------------------------
-    private Transaction buildTransacao(TransactionRequestBody transactionRequestBody) {
+    private Transaction buildTransaction(TransactionRequestBody transactionRequestBody) {
 
-        //find Tipo Transaction
-        TransactionType transactionType = transactionTypeRepository.findById(transactionRequestBody.getTipoTransacaoId())
-                .orElseThrow(()-> new BadRequestException("Tipo Transaction Not Found"));
+        //find transaction type
+        TransactionType transactionType = transactionTypeRepository.findById(transactionRequestBody.getTransactionTypeId())
+                .orElseThrow(()-> new BadRequestException("Transaction Type Not Found"));
 
-        //find Categoria Transaction
-        TransactionCategory transactionCategory = transactionRequestBody.getCategoriaTransacaoId() != null
-                ? transactionCategoryRepository.findById(transactionRequestBody.getCategoriaTransacaoId())
+        //find transaction category
+        TransactionCategory transactionCategory = transactionRequestBody.getTransactionCategoryId() != null
+                ? transactionCategoryRepository.findById(transactionRequestBody.getTransactionCategoryId())
                 .orElseThrow(() -> new BadRequestException("Categoria Transaction Not Found")): null;
 
-        //find Natureza Transaction
-        TransactionNature transactionNature = transactionNatureRepository.findById(transactionRequestBody.getNaturezaTransacaoId())
+        //find transaction nature
+        TransactionNature transactionNature = transactionNatureRepository.findById(transactionRequestBody.getNatureTransactionId())
                 .orElseThrow(()-> new BadRequestException("Categoria Transaction Not Found"));
 
-        //find Meio Pagamento
-        PaymentMethod paymentMethod = transactionRequestBody.getMeioPagamentoId() != null
-                ? paymentMethodRepository.findById(transactionRequestBody.getMeioPagamentoId())
+        //find payment method
+        PaymentMethod paymentMethod = transactionRequestBody.getPaymentMethodId() != null
+                ? paymentMethodRepository.findById(transactionRequestBody.getPaymentMethodId())
                 .orElseThrow(()-> new BadRequestException("Meio Pagamento Not Found")) : null;
 
-        //find Account
-        Account account = accountRepository.findById(transactionRequestBody.getContaId())
+        //find account
+        Account account = accountRepository.findById(transactionRequestBody.getAccountId())
                 .orElseThrow(()-> new BadRequestException("Account Not Found"));
 
         //return Transaction built
         return Transaction.builder()
-                .dataTransacao(transactionRequestBody.getDataTransacao())
-                .dataEfetivaPagamento(transactionRequestBody.getDataEfetivaPagamento())
-                .descricao(transactionRequestBody.getDescricao())
+                .transactionDate(transactionRequestBody.getTransactionDate())
+                .effectiveTransactionDate(transactionRequestBody.getEffectiveTransactionDate())
+                .description(transactionRequestBody.getDescription())
                 .transactionType(transactionType)
                 .transactionCategory(transactionCategory)
-                .naturezaTransacao(transactionNature)
+                .transactionNature(transactionNature)
                 .paymentMethod(paymentMethod)
                 .account(account)
-                .valor(transactionRequestBody.getValor())
+                .amount(transactionRequestBody.getAmount())
                 .build();
     }
 
@@ -67,7 +68,7 @@ public class TransacaoService {
 
     public List<Transaction> findAll(){
         /*
-        * Returns a list of all transacoes (transactions)
+        * Returns a list of all transactions
         */
         return transactionRepository.findAll();
     }
@@ -79,8 +80,8 @@ public class TransacaoService {
     public Transaction findByIdOrThrowBadRequestException(long id) {
 
         /*
-        * Returns a Transaction if the id is found
-        * If isn't found, then returns a BadRequestExeption
+        * Returns a transaction if the id is found
+        * If isn't found, then throws a BadRequestExeption
         * */
 
         return transactionRepository.findById(id).
@@ -88,20 +89,21 @@ public class TransacaoService {
     }
 
     public void update(long id, TransactionRequestBody transactionRequestBody) {
-        /*update Transaction
-         * - This method firstly try to find an original Transaction by id en returns it;
-         * - If it's found, then a temporary Transaction is created using request data (updated data)
-         * - Then, the data of updatedDate is copied to the original Transaction
-         * - Finally, the repository saves the Transaction updated
+        /*
+         * update Transaction
+         * - This method firstly try to find an original transaction by id en returns it;
+         * - If it's found, then a temporary transaction is created using request data (updated data)
+         * - Then, the data of updatedDate is copied to the original transaction
+         * - Finally, the repository saves the transaction updated
          * */
 
         Transaction transaction = findByIdOrThrowBadRequestException(id);
 
-        Transaction updatedData  = buildTransacao(transactionRequestBody);
+        Transaction updatedData  = buildTransaction(transactionRequestBody);
 
-        transaction.setDataTransacao(updatedData.getDataTransacao());
-        transaction.setDataEfetivaPagamento(updatedData.getDataEfetivaPagamento());
-        transaction.setDescricao(updatedData.getDescricao());
+        transaction.setTransactionDate(updatedData.getTransactionDate());
+        transaction.setEffectiveTransactionDate(updatedData.getEffectiveTransactionDate());
+        transaction.setDescription(updatedData.getDescription());
         transaction.setTransactionType(updatedData.getTransactionType());
         transaction.setTransactionCategory(updatedData.getTransactionCategory());
         transaction.setTransactionNature(updatedData.getTransactionNature());
@@ -113,20 +115,21 @@ public class TransacaoService {
     }
 
     public Transaction save(TransactionRequestBody transactionRequestBody) {
-        /*save Transaction
-        * - This methods expect a TransacaoRequestBody
-        * - Then it calls buildTransacao passing the request
-        * - buildTransacao returns the Transaction
-        * - repository saves new Transaction
+        /*
+         * save transaction
+        * - This method expect a TransactionRequestBody
+        * - Then it calls buildTransaction passing the request
+        * - buildTransaction returns the transaction
+        * - repository saves new transaction
         * */
 
-        return transactionRepository.save(buildTransacao(transactionRequestBody));
+        return transactionRepository.save(buildTransaction(transactionRequestBody));
     }
 
     public void delete(long id) {
         /*
-        * Delete existing transacao (transaction) using id
-        * If id not exists, it returns a BadRequestExcepetion
+        * Delete existing transaction using id
+        * If id not exists, it throws a BadRequestExcepetion
         * */
         transactionRepository.delete(findByIdOrThrowBadRequestException(id));
     }

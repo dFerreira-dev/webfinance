@@ -1,11 +1,10 @@
 package com.ferreira.webfinance.service;
 
-import com.ferreira.webfinance.dto.request.CategoriaTransacaoRequestBody;
-import com.ferreira.webfinance.entity.CategoriaTransacao;
+import com.ferreira.webfinance.dto.request.TransactionCategoryRequestBody;
+import com.ferreira.webfinance.entity.TransactionCategory;
 import com.ferreira.webfinance.exception.BadRequestException;
-import com.ferreira.webfinance.mapper.CategoriaTransacaoMapper;
-import com.ferreira.webfinance.repository.CategoriaTransacaoRepository;
-import jakarta.transaction.Transactional;
+import com.ferreira.webfinance.mapper.TransactionCategoryMapper;
+import com.ferreira.webfinance.repository.TransactionCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,39 +14,39 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoriaTransacaoService {
 
-    private final CategoriaTransacaoRepository categoriaTransacaoRepository;
-    private final CategoriaTransacaoMapper categoriaTransacaoMapper;
+    private final TransactionCategoryRepository transactionCategoryRepository;
+    private final TransactionCategoryMapper transactionCategoryMapper;
 
-    public List<CategoriaTransacao> findAll(){
+    public List<TransactionCategory> findAll(){
         /*
-         * Returns a list of all categories (Categoria Transacao)
+         * Returns a list of all categories (Categoria Transaction)
          */
-        return categoriaTransacaoRepository.findAll();
+        return transactionCategoryRepository.findAll();
     }
 
-    public CategoriaTransacao findByIdOrThrowBadRequestException(long id) {
+    public TransactionCategory findByIdOrThrowBadRequestException(long id) {
         /*
          * Returns a transaction category (categoria transacao) if the id is found
          * If isn't found, then throws a BadRequestExeption
          * */
-        return categoriaTransacaoRepository.findById(id).
-                orElseThrow(() -> new BadRequestException("CategoriaTransacao Not Found"));
+        return transactionCategoryRepository.findById(id).
+                orElseThrow(() -> new BadRequestException("TransactionCategory Not Found"));
     }
 
-    public CategoriaTransacao save(CategoriaTransacaoRequestBody categoriaTransacaoRequestBody) {
+    public TransactionCategory save(TransactionCategoryRequestBody transactionCategoryRequestBody) {
         /*
          * save transaction category (categoria transacao)
-         * - This method expect a CategoriaTransacaoRequestBody
+         * - This method expect a TransactionCategoryRequestBody
          * - Then it calls the Mapper to convert the DTO to Entity
-         * - repository saves new CategoriaTransacao
+         * - repository saves new TransactionCategory
          * */
-        return categoriaTransacaoRepository.save(
-                categoriaTransacaoMapper
-                .toCategoriaTransacao(categoriaTransacaoRequestBody));
+        return transactionCategoryRepository.save(
+                transactionCategoryMapper
+                .toTransactionCategory(transactionCategoryRequestBody));
     }
 
 
-    public void update(long id, CategoriaTransacaoRequestBody categoriaTransacaoRequestBody) {
+    public void update(long id, TransactionCategoryRequestBody transactionCategoryRequestBody) {
 
         /*
          *update transaction category (categoria transacao)
@@ -57,12 +56,12 @@ public class CategoriaTransacaoService {
          * - Finally, the repository saves the category updated
          * */
 
-        CategoriaTransacao categoriaTransacao = findByIdOrThrowBadRequestException(id);
+        TransactionCategory transactionCategory = findByIdOrThrowBadRequestException(id);
 
-        CategoriaTransacao updatedData  = categoriaTransacaoMapper.toCategoriaTransacao(categoriaTransacaoRequestBody);
-        categoriaTransacao.setNomeCategoria(updatedData.getNomeCategoria());
+        TransactionCategory updatedData  = transactionCategoryMapper.toTransactionCategory(transactionCategoryRequestBody);
+        transactionCategory.setNomeCategoria(updatedData.getNomeCategoria());
 
-        categoriaTransacaoRepository.save(categoriaTransacao);
+        transactionCategoryRepository.save(transactionCategory);
     }
 
     public void delete(long id) {
@@ -70,7 +69,7 @@ public class CategoriaTransacaoService {
          * Delete existing transaction category (categoria transacao) using id
          * If id not exists, it throws a BadRequestExcepetion
          * */
-        categoriaTransacaoRepository.delete(findByIdOrThrowBadRequestException(id));
+        transactionCategoryRepository.delete(findByIdOrThrowBadRequestException(id));
     }
 
 
