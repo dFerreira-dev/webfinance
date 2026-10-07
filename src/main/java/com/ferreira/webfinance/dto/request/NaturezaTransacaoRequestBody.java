@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MeioPagamentoRequestBody {
-    @NotEmpty(message = "The payment method name (nomeMeioPamaneto) cannot be empty or null")
-    private String nomeMeioPagamento;
+public class NaturezaTransacaoRequestBody {
+    @NotEmpty(message = "The nature transation name (nomeNaturezaTransacao) cannot be empty or null")
+    private String nomeNaturezaTransacao;
 }
