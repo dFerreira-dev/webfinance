@@ -6,9 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
-public abstract class PaymentMethodMapper {
+public interface PaymentMethodMapper {
 
-    public static final PaymentMethodMapper INSTANCE = Mappers.getMapper(PaymentMethodMapper.class);
-
-    public abstract PaymentMethod toPaymentMethod(PaymentMethodRequestBody paymentMethodRequestBody);
+    PaymentMethod toPaymentMethod(PaymentMethodRequestBody paymentMethodRequestBody);
 }

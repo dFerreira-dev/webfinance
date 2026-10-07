@@ -6,9 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
-public abstract class TransactionCategoryMapper {
+public interface TransactionCategoryMapper {
 
-    public static final TransactionCategoryMapper INSTANCE = Mappers.getMapper(TransactionCategoryMapper.class);
-
-    public abstract TransactionCategory toTransactionCategory(TransactionCategoryRequestBody transactionCategoryRequestBody);
+    TransactionCategory toTransactionCategory(TransactionCategoryRequestBody transactionCategoryRequestBody);
 }
