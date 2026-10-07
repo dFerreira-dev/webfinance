@@ -59,7 +59,7 @@ public class CategoriaTransacaoService {
         TransactionCategory transactionCategory = findByIdOrThrowBadRequestException(id);
 
         TransactionCategory updatedData  = transactionCategoryMapper.toTransactionCategory(transactionCategoryRequestBody);
-        transactionCategory.setNomeCategoria(updatedData.getNomeCategoria());
+        transactionCategory.setTransactionCategoryName(updatedData.getTransactionCategoryName());
 
         transactionCategoryRepository.save(transactionCategory);
     }
