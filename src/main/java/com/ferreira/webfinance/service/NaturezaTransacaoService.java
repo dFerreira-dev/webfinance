@@ -52,12 +52,11 @@ public class NaturezaTransacaoService {
                 naturezaTransacaoMapper.toNaturezaTransacao(naturezaTransacaoRequestBody));
     }
 
-    // MUST IMPLEMENT POST REQUEST BODY
     public void update(long id, NaturezaTransacaoRequestBody naturezaTransacaoRequestBody) {
         /*
          * update transaction nature (natureza transacao)
-         * - This method firstly try to find an original nature method by id and returns it;
-         * - If it's found, then a temporary nature method is created using request data (updated data)
+         * - This method firstly try to find an original nature by id and returns it;
+         * - If it's found, then a temporary nature is created using request data (updated data)
          * - Then, the data of updatedData is copied to the original nature
          * - Finally, the repository saves the nature updated
          * */
