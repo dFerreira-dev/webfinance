@@ -1,8 +1,6 @@
 package com.ferreira.webfinance.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class NaturezaTransacao {
+public class TransactionNature {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

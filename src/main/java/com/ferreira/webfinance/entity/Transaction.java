@@ -43,7 +43,7 @@ public class Transaction {
     //natureza
     @ManyToOne(optional = false)
     @JoinColumn(name = "transaction_nature_id", nullable = false)
-    private NaturezaTransacao naturezaTransacao;
+    private TransactionNature transactionNature;
 
     //meio pagamento
     @ManyToOne

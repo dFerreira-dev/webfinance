@@ -14,7 +14,7 @@ public class TransactionCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "transaction_category_id")
-    private Long trasactionCategoryId;
+    private Long transactionCategoryId;
 
     @Column(name = "transaction_category_name", nullable = false)
     private String transactionCategoryName;
