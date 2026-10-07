@@ -24,6 +24,8 @@ public class TransactionRequestBody {
     @NotEmpty(message = "The transaction type id cannot be empty or null ")
     private Long transactionTypeId;
 
+    private Long transactionCategoryId;
+
     private Long transactionNatureId;
 
     @NotEmpty(message = "The nature of the transaction id cannot be empty or null.")
