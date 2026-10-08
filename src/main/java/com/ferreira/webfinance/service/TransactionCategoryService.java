@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CategoriaTransacaoService {
+public class TransactionCategoryService {
 
     private final TransactionCategoryRepository transactionCategoryRepository;
     private final TransactionCategoryMapper transactionCategoryMapper;
