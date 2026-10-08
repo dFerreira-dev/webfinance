@@ -2,6 +2,7 @@ package com.ferreira.webfinance.dto.request;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class TransactionRequestBody {
 
     @NotEmpty(message = "The date of transaction cannot be empty or null")
