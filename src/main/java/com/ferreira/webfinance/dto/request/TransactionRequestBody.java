@@ -28,10 +28,8 @@ public class TransactionRequestBody {
 
     private Long transactionCategoryId;
 
+    @NotEmpty(message = "The transaction nature id cannot be empty or null")
     private Long transactionNatureId;
-
-    @NotEmpty(message = "The nature of the transaction id cannot be empty or null.")
-    private Long natureTransactionId;
 
     private Long paymentMethodId;
 

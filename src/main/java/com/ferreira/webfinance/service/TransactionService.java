@@ -36,7 +36,7 @@ public class TransactionService {
                 .orElseThrow(() -> new BadRequestException("Categoria Transaction Not Found")): null;
 
         //find transaction nature
-        TransactionNature transactionNature = transactionNatureRepository.findById(transactionRequestBody.getNatureTransactionId())
+        TransactionNature transactionNature = transactionNatureRepository.findById(transactionRequestBody.getTransactionNatureId())
                 .orElseThrow(()-> new BadRequestException("Categoria Transaction Not Found"));
 
         //find payment method
