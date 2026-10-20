@@ -357,4 +357,33 @@ class TransactionServiceTest {
     //-------------------------------
     // delete tests -----------------
     //-------------------------------
+    @Test
+    @DisplayName("delete removes transaction when successful")
+    void delete_RemovesTransaction_WhenSuccessful() {
+        long transactionId = 1L;
+        Transaction transaction = TransactionCreator.createValidTransaction();
+
+        BDDMockito.given(transactionRepositoryMock.findById(transactionId))
+                .willReturn(Optional.of(transaction));
+
+        transactionService.delete(transactionId);
+
+        BDDMockito.then(transactionRepositoryMock).should().delete(transaction);
+    }
+
+    @Test
+    @DisplayName("delete throws BadRequestException when transaction not found")
+    void delete_ThrowsBadRequestException_WhenTransactionNotFound() {
+        long transactionId = 1L;
+
+        BDDMockito.given(transactionRepositoryMock.findById(transactionId))
+                .willReturn(Optional.empty());
+
+        Assertions.assertThatThrownBy(() -> transactionService.delete(transactionId))
+                .isInstanceOf(BadRequestException.class);
+
+        BDDMockito.then(transactionRepositoryMock)
+                .should(BDDMockito.never())
+                .delete(ArgumentMatchers.any(Transaction.class));
+    }
 }
