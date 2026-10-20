@@ -46,7 +46,7 @@ class TransactionServiceTest {
     private enum MissingDependency {
         ACCOUNT,
         TRANSACTION_TYPE,
-        TRANSACTION_CATEGORY,
+        TRANSACTION_NATURE,
     }
 
     private static Stream<MissingDependency> missingDependencyProvider() {
@@ -167,6 +167,8 @@ class TransactionServiceTest {
     void save_ThrowsBadRequestException_WhenMissingDependency(MissingDependency missingDependency) {
 
         TransactionRequestBody transactionRequestBody = TransactionRequestBodyCreator.createTransactionRequestBody();
+        transactionRequestBody.setTransactionCategoryId(null);
+        transactionRequestBody.setPaymentMethodId(null);
 
         switch (missingDependency) {
             case TRANSACTION_TYPE -> {
@@ -175,13 +177,13 @@ class TransactionServiceTest {
                     .willReturn(Optional.empty());
             }
 
-            case TRANSACTION_CATEGORY -> {
+            case TRANSACTION_NATURE -> {
                 BDDMockito.given(transactionTypeRepositoryMock.
                         findById(transactionRequestBody.getTransactionTypeId()))
                         .willReturn(Optional.of(TransactionTypeCreator.createValidTransactionType()));
 
-                BDDMockito.given(transactionCategoryRepositoryMock
-                    .findById(transactionRequestBody.getTransactionCategoryId()))
+                BDDMockito.given(transactionNatureRepositoryMock
+                    .findById(transactionRequestBody.getTransactionNatureId()))
                     .willReturn(Optional.empty());
 
             }
@@ -192,17 +194,9 @@ class TransactionServiceTest {
                                 findById(transactionRequestBody.getTransactionTypeId()))
                         .willReturn(Optional.of(TransactionTypeCreator.createValidTransactionType()));
 
-                BDDMockito.given(transactionCategoryRepositoryMock
-                                .findById(transactionRequestBody.getTransactionCategoryId()))
-                        .willReturn(Optional.of(TransactionCategoryCreator.createValidTransactionCategory()));
-
                 BDDMockito.given(transactionNatureRepositoryMock
                                 .findById(transactionRequestBody.getTransactionNatureId()))
                         .willReturn(Optional.of(TransactionNatureCreator.createValidTransactionNature()));
-
-                BDDMockito.given(paymentMethodRepositoryMock
-                                .findById(transactionRequestBody.getPaymentMethodId()))
-                        .willReturn(Optional.of(PaymentMethodCreator.createValidPaymentMethod()));
 
                 BDDMockito.given(accountRepositoryMock.
                             findById(transactionRequestBody.getAccountId()))
@@ -220,7 +214,145 @@ class TransactionServiceTest {
     //-------------------------------
     // update tests -----------------
     //-------------------------------
+    @Test
+    @DisplayName("update replaces transaction when successful")
+    void update_UpdatesTransaction_WhenSuccessful() {
+        TransactionRequestBody transactionRequestBody = TransactionRequestBodyCreator.createTransactionRequestBody();
+        Transaction transaction = TransactionCreator.createValidTransaction();
+        Transaction updatedTransaction = TransactionCreator.createValidUpdatedTransaction();
 
+        // create entities repository
+        Account account = AccountCreator.createValidAccount();
+        PaymentMethod paymentMethod = PaymentMethodCreator.createValidPaymentMethod();
+        TransactionCategory transactionCategory = TransactionCategoryCreator.createValidTransactionCategory();
+        TransactionNature transactionNature = TransactionNatureCreator.createValidTransactionNature();
+        TransactionType transactionType = TransactionTypeCreator.createValidTransactionType();
+
+        // assert request body with values to update
+        transactionRequestBody.setTransactionDate(updatedTransaction.getTransactionDate());
+        transactionRequestBody.setEffectiveTransactionDate(updatedTransaction.getEffectiveTransactionDate());
+        transactionRequestBody.setDescription(updatedTransaction.getDescription());
+        transactionRequestBody.setAmount(updatedTransaction.getAmount());
+
+        // set returns for buildTransaction
+        BDDMockito.given(transactionRepositoryMock.findById(1L))
+                .willReturn(Optional.of(transaction));
+
+        BDDMockito.given(accountRepositoryMock.findById(transactionRequestBody.getAccountId()))
+                .willReturn(Optional.of(account));
+
+        BDDMockito.given(paymentMethodRepositoryMock.findById(transactionRequestBody.getPaymentMethodId()))
+                .willReturn(Optional.of(paymentMethod));
+
+        BDDMockito.given(transactionCategoryRepositoryMock.findById(transactionRequestBody.getTransactionCategoryId()))
+                .willReturn(Optional.of(transactionCategory));
+
+        BDDMockito.given(transactionNatureRepositoryMock.findById(transactionRequestBody.getTransactionNatureId()))
+                .willReturn(Optional.of(transactionNature));
+
+        BDDMockito.given(transactionTypeRepositoryMock.findById(transactionRequestBody.getTransactionTypeId()))
+                .willReturn(Optional.of(transactionType));
+
+        transactionService.update(1L, transactionRequestBody);
+
+        //assert
+        Assertions.assertThat(transaction.getTransactionDate())
+                .isEqualTo(updatedTransaction.getTransactionDate());
+        Assertions.assertThat(transaction.getEffectiveTransactionDate())
+                .isEqualTo(updatedTransaction.getEffectiveTransactionDate());
+        Assertions.assertThat(transaction.getDescription())
+                .isEqualTo(updatedTransaction.getDescription());
+        Assertions.assertThat(transaction.getAmount())
+                .isEqualByComparingTo(updatedTransaction.getAmount());
+
+        BDDMockito.then(transactionRepositoryMock).should().save(transaction);
+    }
+
+    @Test
+    @DisplayName("update throws BadRequestException when transaction not found")
+    void update_ThrowsBadRequestException_WhenTransactionNotFound() {
+        long transactionId = 1L;
+
+        TransactionRequestBody transactionRequestBody = TransactionRequestBodyCreator.createTransactionRequestBody();
+        BDDMockito.given(transactionRepositoryMock.findById(transactionId))
+                .willReturn(Optional.empty());
+
+        Assertions.assertThatThrownBy(() -> transactionService.update(1L, transactionRequestBody))
+                .isInstanceOf(BadRequestException.class);
+
+        BDDMockito.then(transactionRepositoryMock)
+                .should(BDDMockito.never())
+                .save(ArgumentMatchers.any(Transaction.class));
+
+        BDDMockito.then(transactionTypeRepositoryMock).shouldHaveNoInteractions();
+        BDDMockito.then(transactionCategoryRepositoryMock).shouldHaveNoInteractions();
+        BDDMockito.then(transactionNatureRepositoryMock).shouldHaveNoInteractions();
+        BDDMockito.then(paymentMethodRepositoryMock).shouldHaveNoInteractions();
+        BDDMockito.then(accountRepositoryMock).shouldHaveNoInteractions();
+
+    }
+
+
+    @ParameterizedTest
+    @MethodSource("missingDependencyProvider")
+    @DisplayName("update throws BadRequestException when missing dependency")
+    void update_ThrowsBadRequestException_WhenMissingDependency(MissingDependency missingDependency) {
+
+        TransactionRequestBody transactionRequestBody =
+                TransactionRequestBodyCreator.createTransactionRequestBody();
+
+        transactionRequestBody.setTransactionCategoryId(null);
+        transactionRequestBody.setPaymentMethodId(null);
+
+        long transactionId = 1L;
+
+        BDDMockito.given(transactionRepositoryMock.findById(transactionId))
+                .willReturn(Optional.of(TransactionCreator.createValidTransaction()));
+
+
+        switch (missingDependency) {
+            case TRANSACTION_TYPE -> {
+                BDDMockito.given(transactionTypeRepositoryMock.
+                                findById(transactionRequestBody.getTransactionTypeId()))
+                        .willReturn(Optional.empty());
+            }
+
+            case TRANSACTION_NATURE -> {
+                BDDMockito.given(transactionTypeRepositoryMock.
+                                findById(transactionRequestBody.getTransactionTypeId()))
+                        .willReturn(Optional.of(TransactionTypeCreator.createValidTransactionType()));
+
+                BDDMockito.given(transactionNatureRepositoryMock
+                                .findById(transactionRequestBody.getTransactionNatureId()))
+                        .willReturn(Optional.empty());
+
+            }
+
+            case ACCOUNT -> {
+
+                BDDMockito.given(transactionTypeRepositoryMock.
+                                findById(transactionRequestBody.getTransactionTypeId()))
+                        .willReturn(Optional.of(TransactionTypeCreator.createValidTransactionType()));
+
+                BDDMockito.given(transactionNatureRepositoryMock
+                                .findById(transactionRequestBody.getTransactionNatureId()))
+                        .willReturn(Optional.of(TransactionNatureCreator.createValidTransactionNature()));
+
+                BDDMockito.given(accountRepositoryMock.
+                                findById(transactionRequestBody.getAccountId()))
+                        .willReturn(Optional.empty());
+            }
+
+        }
+
+        Assertions.assertThatThrownBy(() -> transactionService.update(transactionId, transactionRequestBody))
+                .isInstanceOf(BadRequestException.class);
+
+        BDDMockito.then(transactionRepositoryMock)
+                .should(BDDMockito.never()).save(ArgumentMatchers.any(Transaction.class));
+    }
+
+    
 
     //-------------------------------
     // delete tests -----------------

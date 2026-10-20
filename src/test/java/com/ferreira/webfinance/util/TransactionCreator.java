@@ -11,6 +11,11 @@ public class TransactionCreator {
                 .transactionDate(LocalDate.of(2026, 10, 1))
                 .effectiveTransactionDate(LocalDate.of(2026, 10, 2))
                 .description("Grocery shopping")
+                .transactionType(TransactionTypeCreator.createValidTransactionType())
+                //.transactionCategory(TransactionCategoryCreator.createValidTransactionCategory()) // OPTIONAL
+                .transactionNature(TransactionNatureCreator.createValidTransactionNature())
+                //.paymentMethod(PaymentMethodCreator.createValidPaymentMethod()) // OPTIONAL
+                .account(AccountCreator.createValidAccount())
                 .amount(new BigDecimal("150.00"))
                 .build();
     }
@@ -21,6 +26,11 @@ public class TransactionCreator {
                 .transactionDate(LocalDate.of(2026, 10, 1))
                 .effectiveTransactionDate(LocalDate.of(2026, 10, 2))
                 .description("Grocery shopping")
+                .transactionType(TransactionTypeCreator.createValidTransactionType())
+                //.transactionCategory(TransactionCategoryCreator.createValidTransactionCategory()) // OPTIONAL
+                .transactionNature(TransactionNatureCreator.createValidTransactionNature())
+                //.paymentMethod(PaymentMethodCreator.createValidPaymentMethod()) // OPTIONAL
+                .account(AccountCreator.createValidAccount())
                 .amount(new BigDecimal("150.00"))
                 .build();
     }
@@ -28,9 +38,13 @@ public class TransactionCreator {
     public static Transaction createValidUpdatedTransaction() {
         return Transaction.builder()
                 .transactionId(1L)
-                .transactionDate(LocalDate.of(2026, 10, 5))
-                .effectiveTransactionDate(LocalDate.of(2026, 10, 6))
-                .description("Updated grocery shopping")
+                .transactionDate(LocalDate.of(2026, 11, 19))
+                .effectiveTransactionDate(LocalDate.of(2026, 11, 19))
+                .description("GTA VI")
+                .transactionType(TransactionTypeCreator.createValidTransactionType())
+                //.transactionCategory(TransactionCategoryCreator.createValidTransactionCategory()) // OPTIONAL
+                .transactionNature(TransactionNatureCreator.createValidTransactionNature())
+                //.paymentMethod(PaymentMethodCreator.createValidPaymentMethod()) // OPTIONAL
                 .amount(new BigDecimal("200.00"))
                 .build();
     }
