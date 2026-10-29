@@ -3,6 +3,7 @@ package com.ferreira.webfinance.controller;
 import com.ferreira.webfinance.dto.request.AccountRequestBody;
 import com.ferreira.webfinance.entity.Account;
 import com.ferreira.webfinance.service.AccountService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,12 +28,12 @@ public class AccountController {
     }
 
     @PostMapping
-    public ResponseEntity<Account> save(@RequestBody AccountRequestBody accountRequestBody) {
+    public ResponseEntity<Account> save(@RequestBody @Valid AccountRequestBody accountRequestBody) {
         return ResponseEntity.ok(accountService.save(accountRequestBody));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> update(@PathVariable long id, @RequestBody AccountRequestBody accountRequestBody) {
+    public ResponseEntity<Void> update(@PathVariable long id, @RequestBody @Valid AccountRequestBody accountRequestBody) {
         accountService.update(id, accountRequestBody);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

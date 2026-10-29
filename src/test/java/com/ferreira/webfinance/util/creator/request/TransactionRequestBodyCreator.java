@@ -1,4 +1,4 @@
-package com.ferreira.webfinance.util;
+package com.ferreira.webfinance.util.creator.request;
 
 import com.ferreira.webfinance.dto.request.TransactionRequestBody;
 

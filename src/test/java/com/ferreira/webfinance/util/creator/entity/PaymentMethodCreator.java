@@ -1,4 +1,4 @@
-package com.ferreira.webfinance.util;
+package com.ferreira.webfinance.util.creator.entity;
 
 import com.ferreira.webfinance.entity.PaymentMethod;
 
