@@ -3,6 +3,7 @@ package com.ferreira.webfinance.controller;
 import com.ferreira.webfinance.dto.request.TransactionCategoryRequestBody;
 import com.ferreira.webfinance.entity.TransactionCategory;
 import com.ferreira.webfinance.service.TransactionCategoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,13 +29,13 @@ public class TransactionCategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<TransactionCategory> save(@RequestBody TransactionCategoryRequestBody transactionCategoryRequestBody) {
+    public ResponseEntity<TransactionCategory> save(@RequestBody @Valid TransactionCategoryRequestBody transactionCategoryRequestBody) {
         return ResponseEntity.ok(transactionCategoryService.save(transactionCategoryRequestBody));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable("id") long id,
-                                       @RequestBody TransactionCategoryRequestBody transactionCategoryRequestBody) {
+                                       @RequestBody @Valid TransactionCategoryRequestBody transactionCategoryRequestBody) {
         transactionCategoryService.update(id, transactionCategoryRequestBody);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
