@@ -3,6 +3,7 @@ package com.ferreira.webfinance.controller;
 import com.ferreira.webfinance.dto.request.TransactionTypeRequestBody;
 import com.ferreira.webfinance.entity.TransactionType;
 import com.ferreira.webfinance.service.TransactionTypeService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,13 +28,13 @@ public class TransactionTypeController {
     }
 
     @PostMapping
-    public ResponseEntity<TransactionType> save(@RequestBody TransactionTypeRequestBody transactionTypeRequestBody) {
+    public ResponseEntity<TransactionType> save(@RequestBody @Valid TransactionTypeRequestBody transactionTypeRequestBody) {
         return ResponseEntity.ok(transactionTypeService.save(transactionTypeRequestBody));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable long id,
-                                       @RequestBody TransactionTypeRequestBody transactionTypeRequestBody) {
+                                       @RequestBody @Valid TransactionTypeRequestBody transactionTypeRequestBody) {
         transactionTypeService.update(id, transactionTypeRequestBody);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
